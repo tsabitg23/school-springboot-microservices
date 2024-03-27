@@ -16,16 +16,4 @@ public class SchoolServiceApplication {
 		SpringApplication.run(SchoolServiceApplication.class, args);
 	}
 
-	@Bean
-	public CommandLineRunner loadData(SchoolRepository schoolRepository){
-		return args -> {
-			Optional<School> schoolOptional = schoolRepository.findByName("smk 1 bekasi");
-			if(schoolOptional.isEmpty()){
-				School school = new School();
-				school.setName("smk 1 bekasi");
-				schoolRepository.save(school);
-			}
-		};
-	}
-
 }

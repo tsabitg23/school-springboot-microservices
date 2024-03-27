@@ -5,8 +5,10 @@ import com.tsabitschool.schoolservice.dto.SchoolResponse;
 import com.tsabitschool.schoolservice.model.School;
 import com.tsabitschool.schoolservice.repository.SchoolRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -35,5 +37,11 @@ public class SchoolService {
                 .id(school.getId())
                 .name(school.getName())
                 .build();
+    }
+
+    @Transactional(readOnly = true)
+    @SneakyThrows
+    public boolean isSchoolExist(String schoolName) {
+        return schoolRepository.findByName(schoolName).isPresent();
     }
 }

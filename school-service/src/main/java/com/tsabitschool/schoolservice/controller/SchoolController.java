@@ -27,4 +27,8 @@ public class SchoolController {
         return schoolService.getAllSchools();
     }
 
+    @GetMapping("/{school-name}")
+    public boolean isSchoolExist(@PathVariable("school-name") String schoolName) {
+        return schoolService.isSchoolExist(schoolName);
+    }
 }
