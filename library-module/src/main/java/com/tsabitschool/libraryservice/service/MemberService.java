@@ -52,6 +52,5 @@ public class MemberService {
             log.error("Error: {}", e.getMessage());
             return null;
         }
-
     }
 }

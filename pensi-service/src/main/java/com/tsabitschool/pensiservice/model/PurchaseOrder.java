@@ -19,9 +19,14 @@ public class PurchaseOrder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime createdAt;
     private String code;
     private Long studentId;
+    private String buyerName;
+    private String buyerEmail;
+    private String buyerPhone;
     private Double totalPrice;
     private Integer totalQuantity;
 

@@ -27,6 +27,13 @@ public class EventService {
         return events.stream().map(this::mapToEventResponse).toList();
     }
 
+    // get event by id
+    public EventResponse getEventById(Long id) {
+        Event event = eventRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Event not found"));
+        return mapToEventResponse(event);
+    }
+
     private EventResponse mapToEventResponse(Event event) {
         return EventResponse.builder()
                 .id(event.getId())
