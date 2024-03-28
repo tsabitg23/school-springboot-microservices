@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDateTime;
+
 @Document(value = "school")
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,4 +18,5 @@ public class School {
     @Id
     private String id;
     private String name;
+    private LocalDateTime deletedAt;
 }

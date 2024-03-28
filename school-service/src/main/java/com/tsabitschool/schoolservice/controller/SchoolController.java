@@ -1,10 +1,13 @@
 package com.tsabitschool.schoolservice.controller;
 
+import com.tsabitschool.schoolservice.dto.GenericResponse;
 import com.tsabitschool.schoolservice.dto.SchoolRequest;
 import com.tsabitschool.schoolservice.dto.SchoolResponse;
+import com.tsabitschool.schoolservice.dto.UpdateSchoolRequest;
 import com.tsabitschool.schoolservice.service.SchoolService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,8 +20,9 @@ public class SchoolController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void createSchool(@RequestBody SchoolRequest schoolRequest) {
+    public GenericResponse createSchool(@RequestBody SchoolRequest schoolRequest) {
         schoolService.createSchool(schoolRequest);
+        return new GenericResponse("School created successfully");
     }
 
     @GetMapping
@@ -30,5 +34,26 @@ public class SchoolController {
     @GetMapping("/{school-name}")
     public boolean isSchoolExist(@PathVariable("school-name") String schoolName) {
         return schoolService.isSchoolExist(schoolName);
+    }
+
+    @PutMapping("/{school-id}")
+    public ResponseEntity<GenericResponse> updateSchool(@PathVariable("school-id") String schoolId, @RequestBody SchoolRequest schoolRequest) {
+        try {
+            UpdateSchoolRequest updateSchoolRequest = new UpdateSchoolRequest(schoolId, schoolRequest.getName());
+            schoolService.updateSchool(updateSchoolRequest);
+            return ResponseEntity.ok(new GenericResponse("School updated successfully"));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new GenericResponse(e.getMessage()));
+        }
+    }
+
+    @DeleteMapping("/{school-id}")
+    public ResponseEntity<GenericResponse> deleteSchool(@PathVariable("school-id") String schoolId) {
+        try {
+            schoolService.deleteSchool(schoolId);
+            return ResponseEntity.ok(new GenericResponse("School deleted successfully"));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new GenericResponse(e.getMessage()));
+        }
     }
 }
