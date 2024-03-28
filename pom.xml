@@ -19,6 +19,7 @@
         <module>school-service</module>
         <module>student-service</module>
         <module>discover-server</module>
+        <module>api-gateway</module>
     </modules>
 
     <properties>
