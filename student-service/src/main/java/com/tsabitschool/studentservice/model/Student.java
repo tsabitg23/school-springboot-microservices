@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name="student")
@@ -21,8 +22,9 @@ public class Student {
     private String name;
     private String studentId;
     private String school;
+    private String schoolId;
     private Integer gender;
     private LocalDate dob;
-
+    private LocalDateTime deletedAt;;
 
 }

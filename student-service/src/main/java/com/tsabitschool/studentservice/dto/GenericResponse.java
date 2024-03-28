@@ -1,17 +1,14 @@
 package com.tsabitschool.studentservice.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class StudentRequest {
-    private String name;
-    private String schoolId;
-    private Integer gender;
-    private LocalDate dob;
+public class GenericResponse {
+    private String message;
 }

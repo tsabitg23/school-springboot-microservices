@@ -58,6 +58,13 @@ public class SchoolService {
         return schoolRepository.findByName(schoolName).isPresent();
     }
 
+    @Transactional(readOnly = true)
+    public SchoolResponse getSchoolById(String schoolId) {
+        School school = schoolRepository.findById(schoolId)
+                .orElseThrow(() -> new IllegalArgumentException("School not found"));
+        return mapToSchoolResponse(school);
+    }
+
     private SchoolResponse mapToSchoolResponse(School school) {
         return SchoolResponse.builder()
                 .id(school.getId())

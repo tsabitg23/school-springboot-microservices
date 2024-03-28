@@ -1,5 +1,6 @@
 package com.tsabitschool.studentservice.controller;
 
+import com.tsabitschool.studentservice.dto.GenericResponse;
 import com.tsabitschool.studentservice.dto.StudentRequest;
 import com.tsabitschool.studentservice.dto.StudentResponse;
 import com.tsabitschool.studentservice.service.StudentService;
@@ -19,12 +20,32 @@ public class StudentController {
 
     private final StudentService studentService;
     @PostMapping
-    public ResponseEntity<String> createStudent(@RequestBody StudentRequest studentRequest) {
+    public ResponseEntity<GenericResponse> createStudent(@RequestBody StudentRequest studentRequest) {
         try {
             studentService.createStudent(studentRequest);
-            return new ResponseEntity<>("Student created", HttpStatus.CREATED);
+            return new ResponseEntity<>(new GenericResponse("Student created"), HttpStatus.CREATED);
         } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(new GenericResponse(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PutMapping("/{studentId}")
+    public ResponseEntity<GenericResponse> updateStudent(@PathVariable Long studentId, @RequestBody StudentRequest studentRequest) {
+        try {
+            studentService.updateStudent(studentId, studentRequest);
+            return new ResponseEntity<>(new GenericResponse("Student updated"), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(new GenericResponse(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @DeleteMapping("/{studentId}")
+    public ResponseEntity<GenericResponse> deleteStudent(@PathVariable Long studentId) {
+        try {
+            studentService.deleteStudent(studentId);
+            return new ResponseEntity<>(new GenericResponse("Student deleted"), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(new GenericResponse(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
