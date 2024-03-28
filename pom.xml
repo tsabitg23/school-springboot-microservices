@@ -21,6 +21,7 @@
         <module>discover-server</module>
         <module>api-gateway</module>
         <module>library-module</module>
+        <module>pensi-service</module>
     </modules>
 
     <properties>
