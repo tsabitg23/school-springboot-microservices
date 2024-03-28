@@ -18,7 +18,7 @@ import com.tsabitschool.schoolservice.dto.SchoolResponse;
 @Transactional
 public class StudentService {
     private final StudentRepository studentRepository;
-    private final WebClient webClient;
+    private final WebClient.Builder webClientBuilder;
     public void createStudent(StudentRequest studentRequest){
         Student student = new Student();
         student.setStudentId(UUID.randomUUID().toString());
@@ -28,17 +28,13 @@ public class StudentService {
         student.setSchoolId(studentRequest.getSchoolId());
 
         // Call school service
-        SchoolResponse result = webClient.get()
-                .uri("http://localhost:8080/api/v1/schools/" + studentRequest.getSchoolId())
-                .retrieve()
-                .bodyToMono(SchoolResponse.class)
-                .block();
+        SchoolResponse result = this.checkIfSchoolExist(studentRequest.getSchoolId());
 
         if(result != null){
             student.setSchool(result.getName());
             studentRepository.save(student);
         } else {
-            throw new IllegalArgumentException("School is not found, please enter correct school name");
+            throw new IllegalArgumentException("School is not found, please enter correct school id");
         }
 
     }
@@ -62,16 +58,12 @@ public class StudentService {
         if(!student.getStudentId().isEmpty()){
             student.setSchoolId(studentRequest.getSchoolId());
             // Call school service
-            SchoolResponse result = webClient.get()
-                    .uri("http://localhost:8080/api/v1/schools/" + studentRequest.getSchoolId())
-                    .retrieve()
-                    .bodyToMono(SchoolResponse.class)
-                    .block();
+            SchoolResponse result = this.checkIfSchoolExist(studentRequest.getSchoolId());
             if(result != null){
                 student.setSchool(result.getName());
                 studentRepository.save(student);
             } else {
-                throw new IllegalArgumentException("School is not found, please enter correct school name");
+                throw new IllegalArgumentException("School is not found, please enter correct school id");
             }
         } else {
             studentRepository.save(student);
@@ -102,5 +94,18 @@ public class StudentService {
                 .gender(student.getGender())
                 .deletedAt(student.getDeletedAt())
                 .build();
+    }
+
+    private SchoolResponse checkIfSchoolExist(String schoolId){
+        try {
+            return webClientBuilder.build().get()
+                    .uri("http://school-service/api/v1/schools/" + schoolId)
+                    .retrieve()
+                    .bodyToMono(SchoolResponse.class)
+                    .block();
+        } catch (Exception e) {
+            return null;
+        }
+
     }
 }

@@ -35,6 +35,7 @@ public class StudentController {
             studentService.updateStudent(studentId, studentRequest);
             return new ResponseEntity<>(new GenericResponse("Student updated"), HttpStatus.OK);
         } catch (Exception e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(new GenericResponse(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

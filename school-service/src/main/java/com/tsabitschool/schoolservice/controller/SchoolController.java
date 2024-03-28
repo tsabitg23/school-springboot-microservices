@@ -6,6 +6,7 @@ import com.tsabitschool.schoolservice.dto.SchoolResponse;
 import com.tsabitschool.schoolservice.dto.UpdateSchoolRequest;
 import com.tsabitschool.schoolservice.service.SchoolService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/schools")
 @RequiredArgsConstructor
+@Slf4j
 public class SchoolController {
     private final SchoolService schoolService;
 
@@ -32,8 +34,14 @@ public class SchoolController {
     }
 
     @GetMapping("/{school-id}")
-    public SchoolResponse isSchoolExist(@PathVariable("school-id") String schoolId) {
-        return schoolService.getSchoolById(schoolId);
+    public ResponseEntity<?> isSchoolExist(@PathVariable("school-id") String schoolId) {
+        try {
+            SchoolResponse schoolResponse = schoolService.getSchoolById(schoolId);
+            return ResponseEntity.ok(schoolResponse);
+        } catch (IllegalArgumentException e) {
+            log.error(e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new GenericResponse(e.getMessage()));
+        }
     }
 
     @PutMapping("/{school-id}")
