@@ -20,6 +20,7 @@
         <module>student-service</module>
         <module>discover-server</module>
         <module>api-gateway</module>
+        <module>library-module</module>
     </modules>
 
     <properties>

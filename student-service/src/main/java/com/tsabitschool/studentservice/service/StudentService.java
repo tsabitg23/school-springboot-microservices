@@ -1,5 +1,6 @@
 package com.tsabitschool.studentservice.service;
 
+import com.tsabitschool.schoolservice.model.School;
 import com.tsabitschool.studentservice.dto.StudentRequest;
 import com.tsabitschool.studentservice.dto.StudentResponse;
 import com.tsabitschool.studentservice.model.Student;
@@ -94,6 +95,12 @@ public class StudentService {
                 .gender(student.getGender())
                 .deletedAt(student.getDeletedAt())
                 .build();
+    }
+
+    public StudentResponse getStudentById(Long studentId) {
+        Student student = studentRepository.findById(studentId)
+                .orElseThrow(() -> new IllegalArgumentException("Student not found"));
+        return mapToStudentResponse(student);
     }
 
     private SchoolResponse checkIfSchoolExist(String schoolId){

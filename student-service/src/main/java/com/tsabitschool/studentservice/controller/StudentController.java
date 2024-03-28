@@ -1,5 +1,6 @@
 package com.tsabitschool.studentservice.controller;
 
+import com.tsabitschool.schoolservice.dto.SchoolResponse;
 import com.tsabitschool.studentservice.dto.GenericResponse;
 import com.tsabitschool.studentservice.dto.StudentRequest;
 import com.tsabitschool.studentservice.dto.StudentResponse;
@@ -26,6 +27,17 @@ public class StudentController {
             return new ResponseEntity<>(new GenericResponse("Student created"), HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(new GenericResponse(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/{student-id}")
+    public ResponseEntity<?> isStudentExist(@PathVariable("student-id") Long studentId) {
+        try {
+            StudentResponse studentResponse = studentService.getStudentById(studentId);
+            return ResponseEntity.ok(studentResponse);
+        } catch (IllegalArgumentException e) {
+            log.error(e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new GenericResponse(e.getMessage()));
         }
     }
 
