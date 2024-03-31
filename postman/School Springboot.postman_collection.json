@@ -361,6 +361,37 @@
 							"response": []
 						},
 						{
+							"name": "Validate Ticket",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Pensi 17 Agustus\",\n    \"price\": 100000,\n    \"description\" : \"Fun event\",\n    \"startDate\": \"2024-01-01\",\n    \"endDate\": \"2024-02-02\",\n    \"schoolId\": \"660519b26ac68f36269b27ba\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/pensi/event",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"pensi",
+										"event"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "Edit",
 							"request": {
 								"method": "PUT",
