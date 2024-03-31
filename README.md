@@ -19,8 +19,13 @@ It has 4 module
 ```bash
 $ mvn clean verify -DskipTests
 ```
+- Create DB in mysql for each module (school, student, library, pensi)
+- Then updated `application.properties` in each module
 - Run by starting each module
 ```bash
+# Run Eureka Service
+$ cd eureka-service && mvn spring-boot:run
+
 # Run School Service
 $ cd school-service && mvn spring-boot:run
 
@@ -32,6 +37,9 @@ $ cd library-service && mvn spring-boot:run
 
 # Run Event Service
 $ cd pensi-service && mvn spring-boot:run
+
+# Run API Gateway
+$ cd api-gateway && mvn spring-boot:run
 ```
 
 ## API Documentation
